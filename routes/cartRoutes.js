@@ -75,8 +75,6 @@ const getUserAndProduct = (req) => {
   const products = readData(PRODUCT_DATA_FILE);
   const selectedProduct = products.filter((product) => product.id == productId);
 
-  console.log(loggedInUser, selectedProduct);
-
   if (loggedInUser.length == 0 || selectedProduct.length == 0) {
     res.status(401).json({ message: "User or Product not found" });
     return;
@@ -141,7 +139,6 @@ router.post("/add-to-cart", (req, res) => {
 
 router.post("/get-user-cart", (req, res) => {
   const { user } = getUserAndProduct(req);
-  console.log("user", user);
   if (user == null) {
     res.status(498).json("Invalid Authentication");
     return;
@@ -152,20 +149,22 @@ router.post("/get-user-cart", (req, res) => {
 
 router.post("/user-cart-increase-product", (req, res) => {
   const { user, product } = getUserAndProduct(req);
+  if (user == null) {
+    res.status(498).json("Invalid Authentication");
+    return;
+  }
+
   let carts = readData(CART_DATA_FILE);
-  let userCart = getUserCartByUser(user);
-
-  const subIndex = userCart.findIndex((c) => c.id == product.id);
-  console.log("userCart",userCart)
-  console.log("subIndex", subIndex);
-  console.log("userCart[subIndex]", userCart[subIndex]);
-  userCart[subIndex] = {
-    ...userCart[subIndex],
-    quantity: userCart[subIndex].quantity + 1,
+  const index = carts.findIndex((c) => c.productId == product.id);
+  if (index < 0) {
+    res.status(401).json({ message: "Product not found" });
+    return;
+  }
+  const quantity = carts[index].quantity + 1;
+  carts[index] = {
+    ...carts[index],
+    quantity: quantity,
   };
-
-  const index = carts.findIndex((c) => c.id == product.id);
-  carts[index] = userCart[subIndex];
   writeData(CART_DATA_FILE, carts);
 
   res.status(200).json({ message: "Product quantity increased successfully" });
@@ -173,38 +172,50 @@ router.post("/user-cart-increase-product", (req, res) => {
 
 router.post("/user-cart-decrease-product", (req, res) => {
   const { user, product } = getUserAndProduct(req);
+  if (user == null) {
+    res.status(498).json("Invalid Authentication");
+    return;
+  }
+
   let carts = readData(CART_DATA_FILE);
-  let userCart = getUserCartByUser(user);
-
-  const subIndex = userCart.findIndex((c) => c.id == product.id);
-  const quantity = userCart[subIndex].quantity - 1;
-  const index = carts.findIndex((c) => c.id == product.id);
-
+  const index = carts.findIndex((c) => c.productId == product.id);
+  if (index < 0) {
+    res.status(401).json({ message: "Product not found" });
+    return;
+  }
+  const quantity = carts[index].quantity - 1;
+  console.log("quantity", quantity);
   if (quantity == 0) {
-    carts.slice(1, index);
+    carts.splice(index, 1);
     writeData(CART_DATA_FILE, carts);
     res
       .status(200)
       .json({ message: "Product quantity decreased successfully" });
     return;
   }
-  userCart[subIndex] = {
-    ...userCart[subIndex],
+  carts[index] = {
+    ...carts[index],
     quantity: quantity,
   };
 
-  carts[index] = userCart[subIndex];
   writeData(CART_DATA_FILE, carts);
-
   res.status(200).json({ message: "Product quantity decreased successfully" });
 });
 
 router.post("/user-cart-remove-product", (req, res) => {
-  const { product } = getUserAndProduct(req);
-  let carts = readData(CART_DATA_FILE);
+  const { user, product } = getUserAndProduct(req);
+  if (user == null) {
+    res.status(498).json("Invalid Authentication");
+    return;
+  }
 
-  const index = carts.findIndex((c) => c.id == product.id);
-  carts.slice(1, index);
+  let carts = readData(CART_DATA_FILE);
+  const index = carts.findIndex((c) => c.productId == product.id);
+  if (index < 0) {
+    res.status(401).json({ message: "Product not found" });
+    return;
+  }
+  carts.splice(index, 1);
   writeData(CART_DATA_FILE, carts);
 
   res.status(200).json({ message: "Product removed from cart successfully" });

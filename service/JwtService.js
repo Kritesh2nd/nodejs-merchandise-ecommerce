@@ -62,10 +62,6 @@ class JwtService {
   }
 
   extractAllClaims(token) {
-    console.log(
-      ' jwt.verify(token, this.secretKey, { algorithms: ["HS256"] })',
-      jwt.verify(token, this.secretKey, { algorithms: ["HS256"] })
-    );
     return jwt.verify(token, this.secretKey, { algorithms: ["HS256"] });
   }
 }

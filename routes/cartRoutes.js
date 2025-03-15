@@ -139,6 +139,7 @@ router.post("/add-to-cart", (req, res) => {
 
 router.post("/get-user-cart", (req, res) => {
   const { user } = getUserAndProduct(req);
+  console.log("user in get user cart", user);
   if (user == null) {
     res.status(498).json("Invalid Authentication");
     return;

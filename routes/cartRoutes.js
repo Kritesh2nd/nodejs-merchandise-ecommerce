@@ -13,6 +13,12 @@ const router = express.Router();
 
 const { v4: uuidv4 } = require("uuid");
 
+const envFile = fs.existsSync(".env.local") ? ".env.local" : ".env";
+require("dotenv").config({ path: envFile });
+console.log("process.env.VITE_STRIPE_SK:", process.env.VITE_STRIPE_SK);
+
+const stripe = require("stripe")(process.env.VITE_STRIPE_SK);
+
 const CART_DATA_FILE = "./data/cart.json";
 const USER_DATA_FILE = "./data/user.json";
 const PRODUCT_DATA_FILE = "./data/product.json";
@@ -139,7 +145,7 @@ router.post("/add-to-cart", (req, res) => {
 
 router.post("/get-user-cart", (req, res) => {
   const { user } = getUserAndProduct(req);
-  console.log("user in get user cart", user);
+  // console.log("user in get user cart", user);r
   if (user == null) {
     res.status(498).json("Invalid Authentication");
     return;
@@ -220,6 +226,24 @@ router.post("/user-cart-remove-product", (req, res) => {
   writeData(CART_DATA_FILE, carts);
 
   res.status(200).json({ message: "Product removed from cart successfully" });
+});
+
+router.post("/create-checkout-session", (req, res) => {
+  try {
+    const { user } = getUserAndProduct(req);
+    const orderProduct = req.body;
+
+    if (orderProduct) {
+      res.status(401).json({ message: "Order not found" });
+      return;
+    }
+
+
+    res.status(200).json({ message: "none" });
+  } catch (err) {
+    console.log("errrrrr", err);
+    res.status(500).json({ message: "server err" });
+  }
 });
 
 module.exports = router;

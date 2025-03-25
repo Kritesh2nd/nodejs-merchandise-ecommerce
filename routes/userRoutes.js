@@ -1,21 +1,14 @@
 const express = require("express");
-const JwtService = require("../service/JwtService"); // Import the JwtService class
-
-// Secret key and expiration time (e.g., 1 hour = 3600000 milliseconds)
-const secretKey = "your-very-secret-key";
-const jwtExpiration = 3600000; // 1 hour in milliseconds
-
-// Initialize the JwtService instance
-const jwtService = new JwtService(secretKey, jwtExpiration);
-
 const fs = require("fs");
 const router = express.Router();
-
 const { v4: uuidv4 } = require("uuid");
 
-const DATA_FILE = "./data/user.json";
+const JwtService = require("../service/JwtService");
+const secretKey = "your-very-secret-key";
+const jwtExpiration = 3600000;
+const jwtService = new JwtService(secretKey, jwtExpiration);
 
-// Generate a UUID
+const DATA_FILE = "./data/user.json";
 const uniqueId = uuidv4();
 
 // Create UserAuth
@@ -37,22 +30,20 @@ const writeData = (data) => {
 
 // Login user
 router.post("/login-user", (req, res) => {
-  // console.log("req.body.email",req.body)
   const users = readData();
   const filteredUser = users.filter((user) => user.email == req.body.email);
-  // console.log("filteredUser",filteredUser)
+
   if (filteredUser.length == 0) {
     res.status(401).json({ message: "Email not found" });
     return;
   }
+
   if (filteredUser[0].password != req.body.password) {
     res.status(401).json({ message: "Email or password is incorrect" });
     return;
   }
 
   const token = jwtService.generateToken(userAuth(filteredUser[0].email));
-  // console.log("Generated Token:", token);
-
   res.status(200).json({ token: token });
 });
 
@@ -65,10 +56,8 @@ router.post("/create-user", (req, res) => {
     res.status(401).json({ message: "This email is already in use." });
     return;
   }
-  console.log("sameEmailUser", sameEmailUser);
 
   const newUser = { id: uniqueId, ...req.body };
-  console.log("newUser", newUser);
   users.push(newUser);
   writeData(users);
   res.status(200).json({ message: "User Account Created Successfully" });
@@ -106,19 +95,3 @@ router.post("/delete-user/:id", (req, res) => {
 });
 
 module.exports = router;
-
-/*
-
-const validateToken = (token) => {
-  const userAuth = {
-    email: jwtService.extractEmail(token),
-    authorities: [{ authority: "ROLE_USER" }],
-  };
-  const isExpired = jwtService.isTokenExpired(token);
-  if (isExpired) return false;
-
-  const isValid = jwtService.isTokenValid(token, userAuth);
-  return isValid;
-};
-
-*/

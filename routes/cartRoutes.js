@@ -1,11 +1,8 @@
 const express = require("express");
-const JwtService = require("../service/JwtService"); // Import the JwtService class
 
-// Secret key and expiration time (e.g., 1 hour = 3600000 milliseconds)
+const JwtService = require("../service/JwtService");
 const secretKey = "your-very-secret-key";
-const jwtExpiration = 3600000; // 1 hour in milliseconds
-
-// Initialize the JwtService instance
+const jwtExpiration = 3600000;
 const jwtService = new JwtService(secretKey, jwtExpiration);
 
 const fs = require("fs");
@@ -15,13 +12,13 @@ const { v4: uuidv4 } = require("uuid");
 
 const envFile = fs.existsSync(".env.local") ? ".env.local" : ".env";
 require("dotenv").config({ path: envFile });
-console.log("process.env.VITE_STRIPE_SK:", process.env.VITE_STRIPE_SK);
 
 const stripe = require("stripe")(process.env.VITE_STRIPE_SK);
 
 const CART_DATA_FILE = "./data/cart.json";
 const USER_DATA_FILE = "./data/user.json";
 const PRODUCT_DATA_FILE = "./data/product.json";
+const ORDER_DATA_FILE = "./data/order.json";
 
 // Generate a UUID
 const uniqueId = uuidv4();
@@ -47,12 +44,10 @@ const validateToken = (token) => {
   } catch (err) {
     return false;
   }
-
   const userAuth = {
     email: jwtService.extractEmail(token),
     authorities: [{ authority: "ROLE_USER" }],
   };
-
   const isValid = jwtService.isTokenValid(token, userAuth);
   return isValid;
 };
@@ -66,7 +61,6 @@ const getUserAndProduct = (req) => {
     : null;
 
   if (!validateToken(token)) {
-    // res.status(498).json({ message: "Invalid or Expired Token" });
     return { user: null, product: null };
   }
 
@@ -112,6 +106,39 @@ const getUserCartByUser = (user) => {
   return userCart;
 };
 
+// Helper fucntion to remove all user cart items
+const removeUserCartItems = (user) => {
+  let carts = readData(CART_DATA_FILE);
+  let newCart = carts.filter((item) => item.userId != user.id);
+  writeData(CART_DATA_FILE, newCart);
+};
+
+// Helper function to save user ordered product in order storage
+const saveUserOrder = (user) => {
+  const userCart = getUserCartProductsQuantity(user);
+  const orderId = uniqueId;
+  const orderItems = userCart.map((item) => {
+    return {
+      id: uniqueId,
+      userId: user.id,
+      productId: item.id,
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity,
+      orderId: orderId,
+      date: new Date(),
+    };
+  });
+  writeData(ORDER_DATA_FILE, orderItems);
+};
+
+// Helper function to get user order
+const getUserOrderList = (user) => {
+  const orders = readData(ORDER_DATA_FILE);
+  const userOrders = orders.filter((item) => item.userId == user.id);
+  return userOrders;
+};
+
 router.post("/add-to-cart", (req, res) => {
   const { user, product } = getUserAndProduct(req);
 
@@ -145,7 +172,6 @@ router.post("/add-to-cart", (req, res) => {
 
 router.post("/get-user-cart", (req, res) => {
   const { user } = getUserAndProduct(req);
-  // console.log("user in get user cart", user);r
   if (user == null) {
     res.status(498).json("Invalid Authentication");
     return;
@@ -191,7 +217,6 @@ router.post("/user-cart-decrease-product", (req, res) => {
     return;
   }
   const quantity = carts[index].quantity - 1;
-  console.log("quantity", quantity);
   if (quantity == 0) {
     carts.splice(index, 1);
     writeData(CART_DATA_FILE, carts);
@@ -228,22 +253,70 @@ router.post("/user-cart-remove-product", (req, res) => {
   res.status(200).json({ message: "Product removed from cart successfully" });
 });
 
-router.post("/create-checkout-session", (req, res) => {
+router.post("/create-checkout-session", async (req, res) => {
   try {
-    const { user } = getUserAndProduct(req);
     const orderProduct = req.body;
-
-    if (orderProduct) {
+    if (orderProduct.length <= 0) {
       res.status(401).json({ message: "Order not found" });
       return;
     }
 
+    const session = await stripe.checkout.sessions.create({
+      line_items: orderProduct,
+      mode: "payment",
+      success_url: "http://localhost:3000/cart/payment-success",
+      cancel_url: "http://localhost:5173/payment/failed",
+    });
 
-    res.status(200).json({ message: "none" });
+    res.status(200).json({
+      message: "Redirecting to payment page",
+      redirectUrl: session.url,
+    });
   } catch (err) {
-    console.log("errrrrr", err);
+    console.log("err", err);
     res.status(500).json({ message: "server err" });
   }
 });
 
+router.post("/payment-success", (req, res) => {
+  try {
+    const { user } = getUserAndProduct(req);
+    if (user == null) {
+      res.status(498).json("Invalid Authentication");
+      return;
+    }
+    saveUserOrder(user);
+    removeUserCartItems(user);
+    window.location.href = "http://localhost:5173/payment/success";
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({ message: "server err in payment success" });
+  }
+});
+
+router.post("/user-order-record", (req, res) => {
+  try {
+    const { user } = getUserAndProduct(req);
+    if (user == null) {
+      res.status(498).json("Invalid Authentication");
+      return;
+    }
+
+    res
+      .status(200)
+      .json({ message: "User all order list", orderList: getUserOrderList() });
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({ message: "error in getting user older order" });
+  }
+});
+
+const usrr = {
+  id: "d7aa0465-c92b-492e-bc84-90ca1167b693",
+  email: "apple@gmail.com",
+  password: "password",
+  name: "Apple",
+};
+
+// saveUserOrder(usrr);
 module.exports = router;

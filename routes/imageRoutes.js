@@ -4,14 +4,12 @@ const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 
-// Generate a UUID
-const uniqueId = uuidv4();
-
-
 const router = express.Router();
 const UPLOADS_DIR = path.join(__dirname, "../images/uploads/");
 const OLD_IMG_DIR = path.join(__dirname, "../images/oldImages/");
 const DATA_FILE = "./data/product.json";
+
+const uniqueId = uuidv4();
 
 // Ensure the upload directory exists
 if (!fs.existsSync(UPLOADS_DIR)) {

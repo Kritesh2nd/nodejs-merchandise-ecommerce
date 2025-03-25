@@ -117,7 +117,8 @@ const removeUserCartItems = (user) => {
 const saveUserOrder = (user) => {
   const userCart = getUserCartProductsQuantity(user);
   const orderId = uniqueId;
-  const orderItems = userCart.map((item) => {
+  let orderItems = readData(ORDER_DATA_FILE);
+  const userOrderItems = userCart.map((item) => {
     return {
       id: uniqueId,
       userId: user.id,
@@ -129,6 +130,7 @@ const saveUserOrder = (user) => {
       date: new Date(),
     };
   });
+  orderItems.push(...userOrderItems);
   writeData(ORDER_DATA_FILE, orderItems);
 };
 
@@ -136,6 +138,7 @@ const saveUserOrder = (user) => {
 const getUserOrderList = (user) => {
   const orders = readData(ORDER_DATA_FILE);
   const userOrders = orders.filter((item) => item.userId == user.id);
+  console.log("userOrders\n",userOrders)
   return userOrders;
 };
 
@@ -255,6 +258,11 @@ router.post("/user-cart-remove-product", (req, res) => {
 
 router.post("/create-checkout-session", async (req, res) => {
   try {
+    const { user } = getUserAndProduct(req);
+    if (user == null) {
+      res.status(498).json("Invalid Authentication");
+      return;
+    }
     const orderProduct = req.body;
     if (orderProduct.length <= 0) {
       res.status(401).json({ message: "Order not found" });
@@ -264,7 +272,7 @@ router.post("/create-checkout-session", async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: orderProduct,
       mode: "payment",
-      success_url: "http://localhost:3000/cart/payment-success",
+      success_url: `http://localhost:3000/cart/payment-success?userId=${user.id}`,
       cancel_url: "http://localhost:5173/payment/failed",
     });
 
@@ -278,16 +286,19 @@ router.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-router.post("/payment-success", (req, res) => {
+router.get("/payment-success", (req, res) => {
   try {
-    const { user } = getUserAndProduct(req);
+    const userId = req.query.userId;
+    const users = readData(USER_DATA_FILE);
+    const user = users.find((u) => u.id == userId);
+    const paymentSuccessUrl = "http://localhost:5173/payment/success";
     if (user == null) {
       res.status(498).json("Invalid Authentication");
       return;
     }
     saveUserOrder(user);
     removeUserCartItems(user);
-    window.location.href = "http://localhost:5173/payment/success";
+    res.redirect(paymentSuccessUrl);
   } catch (err) {
     console.log("err", err);
     res.status(500).json({ message: "server err in payment success" });
@@ -301,22 +312,19 @@ router.post("/user-order-record", (req, res) => {
       res.status(498).json("Invalid Authentication");
       return;
     }
-
-    res
-      .status(200)
-      .json({ message: "User all order list", orderList: getUserOrderList() });
+    res.status(200).json(getUserOrderList(user));
   } catch (err) {
     console.log("err", err);
     res.status(500).json({ message: "error in getting user older order" });
   }
 });
 
-const usrr = {
-  id: "d7aa0465-c92b-492e-bc84-90ca1167b693",
-  email: "apple@gmail.com",
-  password: "password",
-  name: "Apple",
-};
+// const usrr = {
+//   id: "d7aa0465-c92b-492e-bc84-90ca1167b693",
+//   email: "apple@gmail.com",
+//   password: "password",
+//   name: "Apple",
+// };
 
-// saveUserOrder(usrr);
+// // saveUserOrder(usrr);
 module.exports = router;

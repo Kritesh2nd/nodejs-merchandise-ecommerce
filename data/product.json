@@ -2,7 +2,7 @@
   {
     "id": 1,
     "code": "BAG001",
-    "type": "Backpack",
+    "type": "Bag",
     "title": "Cyber Warrior Pack",
     "description": "A futuristic backpack designed for cyberpunk-themed game developers.",
     "game": "Cyber Strike",
@@ -10,7 +10,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag1.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 49.99,
+    "price": 4900,
     "quantity": 100,
     "discount": 0,
     "soldAmount": 250
@@ -26,7 +26,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag2.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 39.99,
+    "price": 3900,
     "quantity": 120,
     "discount": 0,
     "soldAmount": 180
@@ -42,7 +42,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag3.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 34.99,
+    "price": 3400,
     "quantity": 80,
     "discount": 15,
     "soldAmount": 220
@@ -58,7 +58,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag4.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 59.99,
+    "price": 5900,
     "quantity": 90,
     "discount": 10,
     "soldAmount": 190
@@ -74,7 +74,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag5.jpeg",
     "featured": true,
     "rating": 4.5,
-    "price": 44.99,
+    "price": 4400,
     "quantity": 110,
     "discount": 0,
     "soldAmount": 170
@@ -90,7 +90,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag6.jpeg",
     "featured": false,
     "rating": 4.4,
-    "price": 69.99,
+    "price": 6900,
     "quantity": 60,
     "discount": 0,
     "soldAmount": 130
@@ -106,7 +106,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag7.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 54.99,
+    "price": 5400,
     "quantity": 95,
     "discount": 0,
     "soldAmount": 200
@@ -122,7 +122,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/bag8.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 59.99,
+    "price": 5900,
     "quantity": 75,
     "discount": 15,
     "soldAmount": 160
@@ -138,7 +138,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure1.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 59.99,
+    "price": 5900,
     "quantity": 120,
     "discount": 0,
     "soldAmount": 300
@@ -154,7 +154,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure2.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 29.99,
+    "price": 2900,
     "quantity": 150,
     "discount": 0,
     "soldAmount": 250
@@ -170,7 +170,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure3.jpeg",
     "featured": true,
     "rating": 5,
-    "price": 79.99,
+    "price": 7900,
     "quantity": 80,
     "discount": 0,
     "soldAmount": 200
@@ -186,7 +186,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure4.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 39.99,
+    "price": 3900,
     "quantity": 100,
     "discount": 10,
     "soldAmount": 180
@@ -202,7 +202,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure5.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 49.99,
+    "price": 4900,
     "quantity": 110,
     "discount": 0,
     "soldAmount": 190
@@ -218,7 +218,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure6.jpeg",
     "featured": false,
     "rating": 4.5,
-    "price": 69.99,
+    "price": 6900,
     "quantity": 90,
     "discount": 0,
     "soldAmount": 140
@@ -234,7 +234,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure7.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 44.99,
+    "price": 4400,
     "quantity": 95,
     "discount": 0,
     "soldAmount": 210
@@ -250,7 +250,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure8.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 39.99,
+    "price": 3900,
     "quantity": 75,
     "discount": 5,
     "soldAmount": 160
@@ -266,7 +266,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure9.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 59.99,
+    "price": 5900,
     "quantity": 130,
     "discount": 0,
     "soldAmount": 280
@@ -282,7 +282,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure10.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 34.99,
+    "price": 3400,
     "quantity": 100,
     "discount": 0,
     "soldAmount": 190
@@ -298,7 +298,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure11.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 69.99,
+    "price": 6900,
     "quantity": 85,
     "discount": 0,
     "soldAmount": 230
@@ -314,7 +314,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure12.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 49.99,
+    "price": 4900,
     "quantity": 105,
     "discount": 0,
     "soldAmount": 200
@@ -330,7 +330,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/figure13.jpeg",
     "featured": true,
     "rating": 5,
-    "price": 89.99,
+    "price": 8900,
     "quantity": 70,
     "discount": 15,
     "soldAmount": 190
@@ -346,7 +346,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat1.jpeg",
     "featured": true,
     "rating": 4.7,
-    "price": 19.99,
+    "price": 1900,
     "quantity": 150,
     "discount": 0,
     "soldAmount": 220
@@ -362,7 +362,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat2.jpeg",
     "featured": false,
     "rating": 4.5,
-    "price": 14.99,
+    "price": 1400,
     "quantity": 120,
     "discount": 0,
     "soldAmount": 180
@@ -378,7 +378,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat3.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 24.99,
+    "price": 2400,
     "quantity": 100,
     "discount": 0,
     "soldAmount": 250
@@ -394,7 +394,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat4.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 29.99,
+    "price": 2900,
     "quantity": 80,
     "discount": 0,
     "soldAmount": 120
@@ -410,7 +410,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat5.jpeg",
     "featured": true,
     "rating": 4.7,
-    "price": 16.99,
+    "price": 1600,
     "quantity": 90,
     "discount": 0,
     "soldAmount": 160
@@ -426,7 +426,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat6.jpeg",
     "featured": false,
     "rating": 4.4,
-    "price": 22.99,
+    "price": 2200,
     "quantity": 110,
     "discount": 0,
     "soldAmount": 200
@@ -442,7 +442,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hat7.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 25.99,
+    "price": 2500,
     "quantity": 130,
     "discount": 15,
     "soldAmount": 210
@@ -458,7 +458,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie1.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 39.99,
+    "price": 3900,
     "quantity": 200,
     "discount": 0,
     "soldAmount": 300
@@ -474,7 +474,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie2.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 34.99,
+    "price": 3400,
     "quantity": 150,
     "discount": 0,
     "soldAmount": 220
@@ -490,7 +490,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie3.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 42.99,
+    "price": 4200,
     "quantity": 180,
     "discount": 0,
     "soldAmount": 250
@@ -506,7 +506,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie4.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 38.99,
+    "price": 3800,
     "quantity": 130,
     "discount": 0,
     "soldAmount": 190
@@ -522,7 +522,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie5.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 45.99,
+    "price": 4500,
     "quantity": 160,
     "discount": 0,
     "soldAmount": 210
@@ -538,7 +538,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie6.jpeg",
     "featured": false,
     "rating": 4.5,
-    "price": 36.99,
+    "price": 3600,
     "quantity": 140,
     "discount": 0,
     "soldAmount": 180
@@ -554,7 +554,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/hoodie7.jpeg",
     "featured": true,
     "rating": 4.7,
-    "price": 40.99,
+    "price": 4000,
     "quantity": 150,
     "discount": 18,
     "soldAmount": 200
@@ -570,7 +570,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster1.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 14.99,
+    "price": 1400,
     "quantity": 200,
     "discount": 0,
     "soldAmount": 250
@@ -586,7 +586,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster2.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 12.99,
+    "price": 1200,
     "quantity": 150,
     "discount": 0,
     "soldAmount": 180
@@ -602,7 +602,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster3.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 19.99,
+    "price": 1900,
     "quantity": 180,
     "discount": 0,
     "soldAmount": 270
@@ -618,7 +618,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster4.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 16.99,
+    "price": 1600,
     "quantity": 140,
     "discount": 0,
     "soldAmount": 220
@@ -634,7 +634,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster5.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 18.99,
+    "price": 1800,
     "quantity": 160,
     "discount": 10,
     "soldAmount": 240
@@ -650,7 +650,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster6.jpeg",
     "featured": false,
     "rating": 4.5,
-    "price": 13.99,
+    "price": 1300,
     "quantity": 130,
     "discount": 0,
     "soldAmount": 200
@@ -666,7 +666,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster7.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 21.99,
+    "price": 2100,
     "quantity": 220,
     "discount": 0,
     "soldAmount": 300
@@ -682,7 +682,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster8.jpeg",
     "featured": false,
     "rating": 4.4,
-    "price": 10.99,
+    "price": 1000,
     "quantity": 100,
     "discount": 15,
     "soldAmount": 150
@@ -698,7 +698,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster9.jpeg",
     "featured": true,
     "rating": 4.7,
-    "price": 15.99,
+    "price": 1500,
     "quantity": 190,
     "discount": 0,
     "soldAmount": 250
@@ -714,7 +714,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster10.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 17.99,
+    "price": 1700,
     "quantity": 110,
     "discount": 0,
     "soldAmount": 190
@@ -730,7 +730,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster11.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 20.99,
+    "price": 2000,
     "quantity": 160,
     "discount": 0,
     "soldAmount": 240
@@ -762,7 +762,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/poster13.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 23.99,
+    "price": 2300,
     "quantity": 250,
     "discount": 15,
     "soldAmount": 320
@@ -778,7 +778,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt1.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 24.99,
+    "price": 2400,
     "quantity": 200,
     "discount": 0,
     "soldAmount": 180
@@ -794,7 +794,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt2.jpeg",
     "featured": false,
     "rating": 4.7,
-    "price": 21.99,
+    "price": 2100,
     "quantity": 150,
     "discount": 0,
     "soldAmount": 120
@@ -810,7 +810,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt3.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 19.99,
+    "price": 1900,
     "quantity": 180,
     "discount": 0,
     "soldAmount": 150
@@ -826,7 +826,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt4.jpeg",
     "featured": false,
     "rating": 4.6,
-    "price": 22.99,
+    "price": 2200,
     "quantity": 160,
     "discount": 0,
     "soldAmount": 130
@@ -842,7 +842,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt5.jpeg",
     "featured": true,
     "rating": 4.7,
-    "price": 23.99,
+    "price": 2300,
     "quantity": 170,
     "discount": 0,
     "soldAmount": 200
@@ -858,7 +858,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt6.jpeg",
     "featured": false,
     "rating": 4.8,
-    "price": 25.99,
+    "price": 2500,
     "quantity": 180,
     "discount": 0,
     "soldAmount": 210
@@ -874,7 +874,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt7.jpeg",
     "featured": true,
     "rating": 4.9,
-    "price": 26.99,
+    "price": 2600,
     "quantity": 190,
     "discount": 0,
     "soldAmount": 240
@@ -906,7 +906,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt9.jpeg",
     "featured": true,
     "rating": 4.7,
-    "price": 18.99,
+    "price": 1800,
     "quantity": 220,
     "discount": 0,
     "soldAmount": 250
@@ -938,7 +938,7 @@
     "imageUrl": "http://localhost:3000/api/old-images/tshirt11.jpeg",
     "featured": true,
     "rating": 4.8,
-    "price": 22.99,
+    "price": 2200,
     "quantity": 210,
     "discount": 0,
     "soldAmount": 260
@@ -973,6 +973,22 @@
     "price": 19.49,
     "quantity": 140,
     "discount": 0,
+    "soldAmount": 110
+  },
+  {
+    "id": "fbe0f1c4-9e09-4098-91c8-6c9904f2b701",
+    "imageUrl": "http://localhost:3000/api/images/1743146616436.jpg",
+    "code": "TS058",
+    "type": "T-shirt",
+    "title": "Galactic Odyssey T-shirtftt",
+    "description": "A cat space-themed t-shirt inspired by the adventures in Galactic Odyssey.",
+    "game": "Galactic Odyssey cat",
+    "genre": "Sci-Fi",
+    "featured": false,
+    "rating": 4.5,
+    "price": 19.49,
+    "quantity": 140,
+    "discount": 12,
     "soldAmount": 110
   }
 ]

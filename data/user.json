@@ -1,14 +1,21 @@
 [
   {
-    "id": "d7aa0465-c92b-492e-bc84-90ca1167b693",
-    "email": "apple@gmail.com",
+    "id": "32967459-2417-48d9-a128-82e4b19b71d3",
+    "email": "admin@gmail.com",
     "password": "password",
-    "name": "Apple"
+    "name": "Admin ",
+    "authorities": [
+      "admin",
+      "user"
+    ]
   },
   {
-    "id": "27388faa-8900-4986-a393-171689bdd5c7",
-    "email": "ball@gmail.com",
+    "id": "7d392ad6-992b-4fd7-a72b-3d8300d54923",
+    "email": "cat@gmail.com",
     "password": "password",
-    "name": "Ball "
+    "name": "Cat",
+    "authorities": [
+      "user"
+    ]
   }
 ]

@@ -12,8 +12,8 @@ const DATA_FILE = "./data/user.json";
 const uniqueId = uuidv4();
 
 // Create UserAuth
-const userAuth = (email) => {
-  return { email: email, authorities: [{ authority: "ROLE_USER" }] };
+const userAuth = (email, authorities) => {
+  return { email: email, authorities: authorities };
 };
 
 // Helper function to read data
@@ -43,7 +43,13 @@ router.post("/login-user", (req, res) => {
     return;
   }
 
-  const token = jwtService.generateToken(userAuth(filteredUser[0].email));
+  const userAuthorities = filteredUser[0].authorities.map((item) => {
+    return { authority: item };
+  });
+
+  const userAuthData = userAuth(filteredUser[0].email, userAuthorities);
+
+  const token = jwtService.generateToken(userAuthData);
   res.status(200).json({ token: token });
 });
 
@@ -57,7 +63,7 @@ router.post("/create-user", (req, res) => {
     return;
   }
 
-  const newUser = { id: uniqueId, ...req.body };
+  const newUser = { id: uniqueId, ...req.body, authorities: ["user"] };
   users.push(newUser);
   writeData(users);
   res.status(200).json({ message: "User Account Created Successfully" });

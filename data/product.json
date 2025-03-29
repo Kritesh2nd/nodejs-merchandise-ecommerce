@@ -990,5 +990,21 @@
     "quantity": 140,
     "discount": 12,
     "soldAmount": 110
+  },
+  {
+    "id": "27a77379-c930-4e8f-b541-f87fd3dda9a0",
+    "imageUrl": "http://localhost:3000/api/images/1743232909659.png",
+    "title": "Apple",
+    "description": "a for apple",
+    "game": "apple",
+    "genre": "fruit",
+    "type": "Hat",
+    "price": "10",
+    "quantity": "66",
+    "discount": "1",
+    "rating": 0,
+    "code": "",
+    "featured": false,
+    "soldAmount": 0
   }
 ]

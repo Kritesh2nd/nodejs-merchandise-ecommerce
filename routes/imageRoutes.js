@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
 
 // File Filter: Accept only images
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif|json/;
+  const allowedTypes = /jpeg|jpg|png|gif/;
   const extName = allowedTypes.test(
     path.extname(file.originalname).toLowerCase()
   );
@@ -81,7 +81,6 @@ const readData = () => {
   if (!fs.existsSync(DATA_FILE)) return [];
   const data = fs.readFileSync(DATA_FILE);
   return JSON.parse(data);
-  jpg, jpeg, png, gif;
 };
 
 const writeData = (data) => {
@@ -89,64 +88,58 @@ const writeData = (data) => {
 };
 
 // Upload Image and Product Data
-// router.post(
-//   "/add-product-image",
-//   upload.fields([{ name: "image" }, { name: "productData" }]),
-//   (req, res) => {
 router.post("/add-product-image", upload.single("image"), (req, res) => {
-  res.status(200).json({ message: "hi hello" });
-  // if (!req.file) {
-  //   return res.status(400).json({ error: "No image uploaded" });
-  // }
+  if (!req.file) {
+    return res.status(400).json({ error: "No image uploaded" });
+  }
 
-  // if (!req.body.productData) {
-  //   return res.status(400).json({ error: "Product data is required" });
-  // }
+  if (!req.body.productData) {
+    return res.status(400).json({ error: "Product data is required" });
+  }
 
-  // let productData;
-  // try {
-  //   productData = JSON.parse(req.body.productData);
-  // } catch (error) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: "Invalid JSON format in productData" });
-  // }
+  let productData;
+  try {
+    productData = JSON.parse(req.body.productData);
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Invalid JSON format in productData" });
+  }
 
-  // const requiredFields = [
-  //   "code",
-  //   "type",
-  //   "title",
-  //   "description",
-  //   "game",
-  //   "genre",
-  //   "featured",
-  //   "rating",
-  //   "price",
-  //   "quantity",
-  //   "discount",
-  //   "soldAmount",
-  // ];
+  const requiredFields = [
+    "code",
+    "type",
+    "title",
+    "description",
+    "game",
+    "genre",
+    "featured",
+    "rating",
+    "price",
+    "quantity",
+    "discount",
+    "soldAmount",
+  ];
 
-  // for (const field of requiredFields) {
-  //   if (!(field in productData)) {
-  //     return res
-  //       .status(400)
-  //       .json({ error: `Missing required field: ${field}` });
-  //   }
-  // }
+  for (const field of requiredFields) {
+    if (!(field in productData)) {
+      return res
+        .status(400)
+        .json({ error: `Missing required field: ${field}` });
+    }
+  }
 
-  // const products = readData();
-  // const newProduct = {
-  //   id: uniqueId,
-  //   imageUrl: `http://localhost:3000/api/images/${req.file.filename}`, // Store image path
-  //   ...productData,
-  // };
+  const products = readData();
+  const newProduct = {
+    id: uniqueId,
+    imageUrl: `http://localhost:3000/api/images/${req.file.filename}`, // Store image path
+    ...productData,
+  };
 
-  // products.push(newProduct);
-  // writeData(products);
+  products.push(newProduct);
+  writeData(products);
 
-  // res.status(201).json(newProduct);
-  res.status(200).json({ message: "hi hello" });
+  res.status(201).json(newProduct);
 });
 
 module.exports = router;

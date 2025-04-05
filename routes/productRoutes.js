@@ -65,7 +65,6 @@ router.get("/search-products/:keyword", (req, res) => {
   let searchProducts = products.filter((product) =>
     product.title.toLowerCase().includes(req.params.keyword.toLowerCase())
   );
-
   res.json(filterFirstByCount(searchProducts, 8));
 });
 
@@ -82,7 +81,7 @@ router.post("/update-product/:id", (req, res) => {
   if (index === -1) return res.status(404).json({ error: "Product not found" });
   products[index] = { ...products[index], ...req.body };
   writeData(products);
-  res.json(products[index]);
+  res.json({ message: "Product updated successfully" });
 });
 
 router.post("/delete-product/:id", (req, res) => {

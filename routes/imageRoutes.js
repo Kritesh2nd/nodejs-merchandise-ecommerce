@@ -11,6 +11,21 @@ const DATA_FILE = "./data/product.json";
 
 const uniqueId = uuidv4();
 
+const requiredFields = [
+  "code",
+  "type",
+  "title",
+  "description",
+  "game",
+  "genre",
+  "featured",
+  "rating",
+  "price",
+  "quantity",
+  "discount",
+  "soldAmount",
+];
+
 // Ensure the upload directory exists
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -89,13 +104,10 @@ const writeData = (data) => {
 
 // Upload Image and Product Data
 router.post("/add-product-image", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No image uploaded" });
-  }
+  if (!req.file) return res.status(400).json({ error: "No image uploaded" });
 
-  if (!req.body.productData) {
+  if (!req.body.productData)
     return res.status(400).json({ error: "Product data is required" });
-  }
 
   let productData;
   try {
@@ -105,21 +117,6 @@ router.post("/add-product-image", upload.single("image"), (req, res) => {
       .status(400)
       .json({ error: "Invalid JSON format in productData" });
   }
-
-  const requiredFields = [
-    "code",
-    "type",
-    "title",
-    "description",
-    "game",
-    "genre",
-    "featured",
-    "rating",
-    "price",
-    "quantity",
-    "discount",
-    "soldAmount",
-  ];
 
   for (const field of requiredFields) {
     if (!(field in productData)) {
@@ -139,7 +136,41 @@ router.post("/add-product-image", upload.single("image"), (req, res) => {
   products.push(newProduct);
   writeData(products);
 
-  res.status(201).json(newProduct);
+  res.status(200).json({ message: "Product added successfully" });
+});
+
+// Update product with new Image and Product Data
+router.post("/update-product-image", upload.single("image"), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: "No image uploaded" });
+
+  if (!req.body.productData)
+    return res.status(400).json({ error: "Product data is required" });
+
+  let productData;
+  try {
+    productData = JSON.parse(req.body.productData);
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Invalid JSON format in productData" });
+  }
+
+  for (const field of requiredFields) {
+    if (!(field in productData)) {
+      return res
+        .status(400)
+        .json({ error: `Missing required field: ${field}` });
+    }
+  }
+
+  let products = readData();
+  const index = products.findIndex((p) => p.id == productData.id);
+  products[index] = {
+    ...productData,
+    imageUrl: `http://localhost:3000/api/images/${req.file.filename}`,
+  };
+  writeData(products);
+  res.status(200).json({ message: "Product Updated successfully" });
 });
 
 module.exports = router;

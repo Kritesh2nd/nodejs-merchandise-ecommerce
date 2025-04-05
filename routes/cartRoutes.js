@@ -116,11 +116,11 @@ const removeUserCartItems = (user) => {
 // Helper function to save user ordered product in order storage
 const saveUserOrder = (user) => {
   const userCart = getUserCartProductsQuantity(user);
-  const orderId = uniqueId;
+  const orderId = uuidv4();
   let orderItems = readData(ORDER_DATA_FILE);
   const userOrderItems = userCart.map((item) => {
     return {
-      id: uniqueId,
+      id: uuidv4(),
       userId: user.id,
       productId: item.id,
       title: item.title,
@@ -128,6 +128,7 @@ const saveUserOrder = (user) => {
       quantity: item.quantity,
       orderId: orderId,
       date: new Date(),
+      status: "pending",
     };
   });
   orderItems.push(...userOrderItems);
@@ -138,7 +139,6 @@ const saveUserOrder = (user) => {
 const getUserOrderList = (user) => {
   const orders = readData(ORDER_DATA_FILE);
   const userOrders = orders.filter((item) => item.userId == user.id);
-  console.log("userOrders\n",userOrders)
   return userOrders;
 };
 
@@ -319,12 +319,86 @@ router.post("/user-order-record", (req, res) => {
   }
 });
 
-// const usrr = {
-//   id: "d7aa0465-c92b-492e-bc84-90ca1167b693",
-//   email: "apple@gmail.com",
-//   password: "password",
-//   name: "Apple",
-// };
+router.get("/get-pending-order", (req, res) => {
+  try {
+    const orders = readData(ORDER_DATA_FILE);
+    const pendingOrder = orders.filter((item) => item.status == "pending");
+    res.status(200).json(pendingOrder);
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({ message: "error in getting pending order" });
+  }
+});
 
-// // saveUserOrder(usrr);
+router.get("/get-completed-order", (req, res) => {
+  try {
+    const orders = readData(ORDER_DATA_FILE);
+    const completedOrder = orders.filter((item) => item.status == "completed");
+    res.status(200).json(completedOrder);
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({ message: "error in getting pending order" });
+  }
+});
+
+router.post("/update-pending-order/:id", (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const orders = readData(ORDER_DATA_FILE);
+
+    let completedOrder = orders.filter((item) => item.status == "completed");
+    let pendingOrder = orders.filter(
+      (item) => item.status == "pending" && item.orderId == orderId
+    );
+    let remainingPendingOrder = orders.filter(
+      (item) => item.status == "pending" && item.orderId != orderId
+    );
+    let updatedPendingOrder = pendingOrder.map((item) => {
+      item.status = "completed";
+      return item;
+    });
+    const orderList = [
+      ...completedOrder,
+      ...updatedPendingOrder,
+      ...remainingPendingOrder,
+    ];
+
+    writeData(ORDER_DATA_FILE, orderList);
+    res.status(200).json({});
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({ message: "error in getting pending order" });
+  }
+});
+
+router.post("/revert-completed-order/:id", (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const orders = readData(ORDER_DATA_FILE);
+
+    let pendingOrder = orders.filter((item) => item.status == "pending");
+    let completedOrder = orders.filter(
+      (item) => item.status == "completed" && item.orderId == orderId
+    );
+    let remainingCompletedOrder = orders.filter(
+      (item) => item.status == "completed" && item.orderId != orderId
+    );
+    let updatedgCompletedOrder = completedOrder.map((item) => {
+      item.status = "pending";
+      return item;
+    });
+    const orderList = [
+      ...pendingOrder,
+      ...updatedgCompletedOrder,
+      ...remainingCompletedOrder,
+    ];
+
+    writeData(ORDER_DATA_FILE, orderList);
+    res.status(200).json({});
+  } catch (err) {
+    console.log("err", err);
+    res.status(500).json({ message: "error in getting pending order" });
+  }
+});
+
 module.exports = router;

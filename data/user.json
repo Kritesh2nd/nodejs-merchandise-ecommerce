@@ -17,5 +17,14 @@
     "authorities": [
       "user"
     ]
+  },
+  {
+    "id": "b39b724c-d7a5-4cb4-a722-25bc2277ca25",
+    "email": "dog@gmail.com",
+    "password": "password",
+    "name": "Dog",
+    "authorities": [
+      "user"
+    ]
   }
 ]

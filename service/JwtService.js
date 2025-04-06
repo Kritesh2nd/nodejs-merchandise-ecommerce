@@ -35,6 +35,7 @@ class JwtService {
         ...extraClaims,
         roles: userRoles,
         sub: userAuth.email,
+        name:userAuth.name,
         iat: Math.floor(Date.now() / 1000),
         exp: Math.floor(Date.now() / 1000) + expiration / 1000,
       },

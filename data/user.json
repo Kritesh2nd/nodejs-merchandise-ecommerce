@@ -3,7 +3,7 @@
     "id": "32967459-2417-48d9-a128-82e4b19b71d3",
     "email": "admin@gmail.com",
     "password": "password",
-    "name": "Admin ",
+    "name": "Mr. Admin ",
     "authorities": [
       "admin",
       "user"

@@ -12,8 +12,8 @@ const DATA_FILE = "./data/user.json";
 const uniqueId = uuidv4();
 
 // Create UserAuth
-const userAuth = (email, authorities) => {
-  return { email: email, authorities: authorities };
+const userAuth = (email, authorities, name) => {
+  return { email: email, authorities: authorities, name: name };
 };
 
 // Helper function to read data
@@ -26,6 +26,44 @@ const readData = () => {
 // Helper function to write data
 const writeData = (data) => {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+};
+
+// Validate Token
+const validateToken = (token) => {
+  if (!token) return false;
+  try {
+    const isExpired = jwtService.isTokenExpired(token);
+    if (isExpired) return false;
+  } catch (err) {
+    return false;
+  }
+  const userAuth = {
+    email: jwtService.extractEmail(token),
+    authorities: [{ authority: "ROLE_USER" }],
+  };
+  const isValid = jwtService.isTokenValid(token, userAuth);
+  return isValid;
+};
+
+// Helper function to get user from bearer token
+const getLoggedInUser = (req) => {
+  try {
+    const bearerToken = req.headers.authorization;
+    const token = bearerToken.startsWith("Bearer ")
+      ? bearerToken.split(" ")[1]
+      : null;
+
+    if (!validateToken(token)) return null;
+    const userEmail = jwtService.extractEmail(token);
+    const users = readData();
+    const loggedInUser = users.filter((user) => user.email == userEmail);
+    if (loggedInUser.length == 0) return null;
+    const user = { ...loggedInUser[0], password: null };
+    return user;
+  } catch (err) {
+    console.log("error while getting logged in user - nodejs:", err);
+    return null;
+  }
 };
 
 // Login user
@@ -47,7 +85,11 @@ router.post("/login-user", (req, res) => {
     return { authority: item };
   });
 
-  const userAuthData = userAuth(filteredUser[0].email, userAuthorities);
+  const userAuthData = userAuth(
+    filteredUser[0].email,
+    userAuthorities,
+    filteredUser[0].name
+  );
 
   const token = jwtService.generateToken(userAuthData);
   res.status(200).json({ token: token });
@@ -72,6 +114,13 @@ router.post("/create-user", (req, res) => {
 // Read all users
 router.get("/users", (req, res) => {
   res.json(readData());
+});
+
+// Get logged in user
+router.get("/user/me", (req, res) => {
+  const user = getLoggedInUser(req);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  res.json(user);
 });
 
 // Read a user by ID

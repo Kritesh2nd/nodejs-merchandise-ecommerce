@@ -3,28 +3,21 @@
     "id": "32967459-2417-48d9-a128-82e4b19b71d3",
     "email": "admin@gmail.com",
     "password": "password",
-    "name": "Mr. Admin ",
-    "authorities": [
-      "admin",
-      "user"
-    ]
+    "name": "Mr. Admin",
+    "authorities": ["admin", "user"]
   },
   {
     "id": "7d392ad6-992b-4fd7-a72b-3d8300d54923",
-    "email": "cat@gmail.com",
+    "email": "ram@gmail.com",
     "password": "password",
-    "name": "Cat",
-    "authorities": [
-      "user"
-    ]
+    "name": "Ram",
+    "authorities": ["user"]
   },
   {
     "id": "b39b724c-d7a5-4cb4-a722-25bc2277ca25",
-    "email": "dog@gmail.com",
+    "email": "shyam@gmail.com",
     "password": "password",
-    "name": "Dog",
-    "authorities": [
-      "user"
-    ]
+    "name": "Shyam",
+    "authorities": ["user"]
   }
 ]
